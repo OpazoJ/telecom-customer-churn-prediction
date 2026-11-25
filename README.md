@@ -88,6 +88,18 @@ Other findings:
 * Permutation importance on the test set agrees with the odds ratios: `tenure`, `InternetService` and `Contract` (shuffled by group) are the variables the model relies on most.
 * Because `MonthlyCharges` was excluded to avoid multicollinearity with the service indicators, the odds ratios for services like Fiber optic (2.50) and Streaming (~1.33) capture both the service experience and its associated price tier.
 
+## Limitations and next steps
+
+* The data is a single snapshot of 7,043 clients: there is no time dimension, so the model has not been validated on a later period, which is how it would be used in production.
+* The data is a sample provided by IBM. A 26.5% churn rate might be unrealistic.
+* The model's probabilities are calibrated to this sample's 26.5% base rate. With a lower real churn rate the intercept must be recalibrated: in a simulation, the expected value rule contacts 27% of clients at 10% churn and 4% at 2%, versus 44% here.
+* With these assumptions contacting every client is already profitable (about +11 USD per client), which shows the assumptions are generous.
+* The results show associations, not causes. For example, fiber optic churn could reflect price, service quality or competition, and the data cannot tell which.
+* The cost-benefit analysis uses illustrative assumptions (success rate, offer cost), and the share of clients to contact is sensitive to them (the notebook includes a sensitivity table). Client value is revenue, not margin. The calibration was checked on this snapshot, not on a later period.
+* The model predicts who is likely to churn, not who would respond to an offer. Targeting should ideally rely on uplift (the incremental effect of the offer), which requires a controlled experiment.
+* The target is whether the client already left (`Churn` = left within the last month), so the model ranks clients retrospectively and no prediction horizon is defined. The 12-month client value assumes the client would have stayed that long.
+* Next steps: test interactions (for example tenure × contract), explore SHAP values, and run a controlled test of retention offers to measure their real effect.
+
 ## Repository structure
 
 ```
@@ -119,18 +131,6 @@ jupyter notebook Telco_Customer_Churn.ipynb
 ```
 
 Developed and tested with Python 3.14. Library versions are in `requirements.txt`. A fixed `random_state` is used, so the results are reproducible.
-
-## Limitations and next steps
-
-* The data is a single snapshot of 7,043 clients: there is no time dimension, so the model has not been validated on a later period, which is how it would be used in production.
-* The data is a sample provided by IBM. A 26.5% churn rate might be unrealistic.
-* The model's probabilities are calibrated to this sample's 26.5% base rate. With a lower real churn rate the intercept must be recalibrated: in a simulation, the expected value rule contacts 27% of clients at 10% churn and 4% at 2%, versus 44% here.
-* With these assumptions contacting every client is already profitable (about +11 USD per client), which shows the assumptions are generous.
-* The results show associations, not causes. For example, fiber optic churn could reflect price, service quality or competition, and the data cannot tell which.
-* The cost-benefit analysis uses illustrative assumptions (success rate, offer cost), and the share of clients to contact is sensitive to them (the notebook includes a sensitivity table). Client value is revenue, not margin. The calibration was checked on this snapshot, not on a later period.
-* The model predicts who is likely to churn, not who would respond to an offer. Targeting should ideally rely on uplift (the incremental effect of the offer), which requires a controlled experiment.
-* The target is whether the client already left (`Churn` = left within the last month), so the model ranks clients retrospectively and no prediction horizon is defined. The 12-month client value assumes the client would have stayed that long.
-* Next steps: test interactions (for example tenure × contract), explore SHAP values, and run a controlled test of retention offers to measure their real effect.
 
 ## Tech stack
 
