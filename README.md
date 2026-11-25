@@ -53,7 +53,7 @@ Each client is contacted only if the expected value of the offer is positive: `p
 | Top 44% by risk | 44% | 0.82 | 0.49 | \$51,198 |
 | **Expected value > 0** | **44%** | **0.79** | **0.48** | **\$52,882** |
 
-The expected value rule catches 295 of the 374 churners (79%) by contacting 44% of the clients (620), with 48% precision (325 contacted clients would have stayed). Ranking by probability and contacting the same 44% gives a net benefit 1,697 USD lower (95% bootstrap interval −434 to 4,080), so in this test set the difference is small and its interval includes zero. Most of the gain over the fixed rules comes from choosing how many clients to contact. Across 30 random splits the expected value rule beats it in 29, by about 2k USD on average.
+The expected value rule catches 295 of the 374 churners (79%) by contacting 44% of the clients (620), with 48% precision (325 contacted clients would have stayed). Ranking by probability and contacting the same 44% gives a net benefit 1,697 USD lower (95% bootstrap interval −434 to 4,080), so in this test set the difference is small and its interval includes zero. Most of the gain over the fixed rules comes from choosing how many clients to contact. Repeating the split 30 times, with the model retrained each time, the expected value rule comes out ahead in 29, by about 2k USD (around 4%) on average. This is a small but consistent advantage, which is expected because the rule also weighs each client's value. The splits reuse the same data, so they are not independent evidence.
 
 ![Net benefit by strategy](images/net_benefit_by_strategy.png)
 
