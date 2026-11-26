@@ -104,7 +104,7 @@ Other findings:
 
 ```
 .
-├── Telco_Customer_Churn.ipynb   # full analysis (EDA, preparation, modeling, conclusions)
+├── Telco Customer Churn.ipynb   # full analysis (EDA, preparation, modeling, conclusions)
 ├── images/                      # figures used in this README
 ├── requirements.txt
 ├── .gitignore
